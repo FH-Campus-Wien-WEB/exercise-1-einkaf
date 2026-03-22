@@ -7,6 +7,82 @@
     <title>Movies!</title>
     <style>
         /* Part 3: Your styling goes here */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        @media (min-width: 1080px) {
+            body{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: stretch;
+            }
+        }
+
+        img {
+            border-radius: 10px;
+            margin: auto;
+            max-width: 260px;
+            box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+
+        article {
+            background-color: lightgray;
+            margin: 30px 20px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
+            max-width: 300px;
+            cursor: pointer;
+            transition: all 0.5s ease; /* animates everything over 1 second */
+        }
+
+        article:hover{
+            background: rgb(46, 46, 46);
+            color: white;
+        }
+
+        span {
+            margin-right: 5px;
+        }
+
+        .genrs span {
+            background: darkgray;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid;
+            font-weight: bold;
+            box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s ease ;
+        }
+
+        .genrs span:hover{
+            background: gray;
+            color: black;
+        }
+
+        .description {
+            text-align: justify;
+        }
+
+        .introduction{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
     </style>
     <script>
         function reverseString(s) {
@@ -19,7 +95,123 @@
                 const bodyElement = document.querySelector("body")
                 if (xhr.status == 200) {
 		            /* Part 2: Build the HTML elements here and append them to the body */ 
-                    bodyElement.append(reverseString(xhr.responseText))
+                    const movies = JSON.parse(xhr.responseText)
+ 
+                    for(let i = 0; i<3; i++){
+                        let movie = movies[i]
+                        
+                        // make a container for each movie
+                        let article = document.createElement("article") 
+                        bodyElement.appendChild(article)
+
+                       // make a container inside each movie aticle for introduction                        
+                        let section_introduction = document.createElement("section")
+                        section_introduction.classList.add("introduction")
+                        article.appendChild(section_introduction)
+
+                            // add each poster to the introduction section
+                            let image_poster = document.createElement("img")
+                            image_poster.src = movie.Poster
+                            image_poster.alt = movie.alt
+                            section_introduction.appendChild(image_poster)
+
+                            // add each title to the introduction section 
+                            let title = document.createElement("h2")
+                            title.textContent = movie.Title
+                            section_introduction.appendChild(title)
+
+                            // add paragraph and put the released time an runetime inside with a good format
+                            let info = document.createElement("p") 
+                            let hours = Math.floor(movie.Runtime / 60)
+                            let minutes = movie.Runtime % 60
+                            info.innerHTML =
+                                `<time>${hours} h ${minutes}m</time> • 
+                                Released on <time datetime="${movie.Released}">${movie.Released}</time>`
+                            section_introduction.appendChild(info)
+
+                            // add paragraph and put the rating inside with a good format
+                            let rating = document.createElement("p")
+                            let imdb = movie.imdbRating
+                            let meta = movie.Metascore
+                            rating.textContent = `IMDb: ${imdb} | Metacritic: ${meta}`
+                            section_introduction.appendChild(rating)
+                            
+                            // add paragraph an put the genres inside with spans for each genre
+                            let genres = document.createElement("p")
+                            genres.classList.add("genrs")
+                            movie.Genres.forEach(element => {
+                                let genre = document.createElement("span")
+                                genre.textContent = element
+                                genres.appendChild(genre)
+                            })
+                            section_introduction.appendChild(genres)
+
+                            // add description 
+                            let description = document.createElement("p")
+                            description.classList.add("description")
+                            description.textContent = movie.Plot
+                            section_introduction.appendChild(description)
+
+
+
+
+
+
+                       // make a container inside each movie aticle for details                        
+                        let section_details = document.createElement("section")
+                        section_details.classList.add("details")
+                        article.appendChild(section_details)
+                            
+                            // add directors in the director_section and then make a list of directors and append the section to the section_detail
+                            let director_section = document.createElement("section")
+                            section_details.appendChild(director_section)
+
+                            let director_title = document.createElement("h3")
+                            director_title.textContent = "Directors: "
+                            director_section.appendChild(director_title)
+                            
+                            let directors = document.createElement("ul")
+                            movie.Directors.forEach(element=>{
+                                let director = document.createElement("li")
+                                director.textContent = element
+                                directors.appendChild(director)
+                            })
+                            director_section.appendChild(directors)
+                        
+                            // add Writers in the writer_section and then make a list of writers and append the section to the section_detail
+                            let writer_section = document.createElement("section")
+                            section_details.appendChild(writer_section)
+
+                            let writer_title = document.createElement("h3")
+                            writer_title.textContent = "Writers: "
+                            writer_section.append(writer_title)
+
+                            let writers = document.createElement("ul")
+                            movie.Writers.forEach(element=>{
+                                let writer = document.createElement("li")
+                                writer.textContent = element
+                                writers.appendChild(writer)
+                            })
+                            writer_section.appendChild(writers)
+                            
+                            // add actors in the actor_section and then make a list of actors and append the section to the section_detail
+                            let actor_section = document.createElement("section")
+                            section_details.appendChild(actor_section)
+
+                            let actor_title = document.createElement("h3")
+                            actor_title.textContent = "Actors: "
+                            actor_section.appendChild(actor_title)
+
+                            let actors = document.createElement("ul")
+                            movie.Actors.forEach(element => {
+                                let actor = document.createElement("li")
+                                actor.textContent = element
+                                actors.appendChild(actor)
+                            })
+                            actor_section.appendChild(actors)
+
+                    }
+
                 } else {
                     bodyElement.append("Daten konnten nicht geladen werden, Status " + xhr.status + " - " + xhr.statusText)
                 }

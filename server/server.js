@@ -6,16 +6,25 @@ const movies = [
   {
     // 2.
     "Title": "Interstellar",
+    // 4.
     "Released": "07/11/2014",
+    // 5.
     "Runtime": 169,
+    // 6.
     "Genres": ["Adventure", "Drama", "Sci-Fi"],
+    // 9.
     "Directors": ["Christopher Nolan"],
+    // 10.
     "Writers": ["Jonathan Nolan", "Christopher Nolan"],
+    // 11.
     "Actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+    // 7.
     "Plot": "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.",
     // 1.
     "Poster": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_SX300.jpg",
+    // 8.
     "Metascore": 74,
+    // 8.
     "imdbRating": 8.7
   },
   {
